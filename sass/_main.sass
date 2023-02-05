@@ -1,0 +1,234 @@
+$minHeight: 200px
+body
+    min-height: $minHeight
+.root
+    +size(100% 100%)
+.pane
+    +stretch
+    z-index: 0
+.ui
+    z-index: 1
+    position: fixed
+    top: 100%
+    height: 100%
+    left: 0
+    right: 0
+    &:before,
+    &:after
+        content: ''
+        height: 80px
+        z-index: 0
+        pointer-events: none
+    &:before
+        +stretch($top: -100%, $bottom: auto)
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))
+    &:after
+        +stretch($top: auto, $bottom: 100%)
+        background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))
+.screen
+    +stretch
+.slider
+    overflow: hidden
+    backface-visibility: hidden
+    +stretch
+    &.peek-prev
+        .s-prev
+            z-index: 2
+        .s-next
+            z-index: 1
+@keyframes move-prev
+    to
+        transform: translateX(100%)
+@keyframes move-next
+    to
+        transform: translateX(-100%)
+@keyframes move-start
+    to
+        transform: translateX(0)
+.s-item
+    background: black
+    +stretch
+    overflow: hidden
+    z-index: 1
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8)
+    &.s-current
+        z-index: 3
+        cursor: move
+        cursor: grab
+        cursor: -moz-grab
+        cursor: -webkit-grab
+        &:active
+            cursor: grabbing
+            cursor: -moz-grabbing
+            cursor: -webkit-grabbing
+    &.s-prev
+        z-index: 1
+    &.s-next
+        z-index: 2
+    &.move-prev
+        animation: move-prev 1 500ms both
+    &.move-next
+        animation: move-next 1 500ms both
+    &.move-start
+        animation: move-start 1 500ms both
+    img
+        width: 100%
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+        opacity: 0
+        transition: opacity 300ms
+        &.loaded
+            opacity: 1
+.grid
+    +stretch
+    +blocks(0)
+.grid-full
+    +stretch($position: fixed)
+    z-index: 2
+    visibility: hidden
+    background: transparent
+    cursor: pointer
+    &.active
+        visibility: visible
+        background: black
+        transition: background-color 400ms
+    &:hover
+        .gf-hide
+            &:before
+                opacity: 1
+.gf-image
+    +stretch
+    transform-origin: center
+    img
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+        opacity: 0
+        transition: opacity 200ms
+        &.loaded
+            opacity: 1
+.scale-fullscreen
+    transition: transform cubic-bezier(0.54, 0.18, 0.51, 1) 600ms
+.gf-hide
+    position: absolute
+    right: 20px
+    top: 20px
+    +size(60 60)
+    &:before
+        content: ''
+        +stretch
+        +size(36 36)
+        opacity: 0.8
+        transition: opacity 300ms
+        background: url(img('hide.svg'))
+        background-size: 100% 100%
+.g-item
+    overflow: hidden
+    position: relative
+    img
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+        opacity: 0
+        transition: opacity 300ms
+        &.loaded
+            opacity: 1
+.logo
+    position: absolute
+    z-index: 1
+    top: -100%
+    margin-top: 20px
+    left: 20px
+    a
+        display: block
+        +size(43 23)
+        background: url(img('logo.svg'))
+        background-size: 100% 100%
+.mode
+    position: absolute
+    z-index: 1
+    top: -100%
+    margin-top: 20px
+    right: 20px
+    +blocks(0)
+    span
+        +size(28 28)
+        position: relative
+        cursor: pointer
+        opacity: 0.4
+        transition: opacity 200ms
+        &:hover
+            opacity: 0.8
+        &.active
+            opacity: 1
+            cursor: default
+        &:before
+            content: ''
+            +size(20 20)
+            +stretch
+.m-screen
+    &:before
+        background: url(img('screen.svg'))
+        background-size: 100% 100%
+.m-grid
+    &:before
+        background: url(img('grid.svg'))
+        background-size: 100% 100%
+.email
+    position: absolute
+    z-index: 1
+    left: 20px
+    bottom: 100%
+    margin-bottom: 20px
+.counter
+    position: absolute
+    z-index: 1
+    right: 20px
+    bottom: 100%
+    margin-bottom: 20px
+    font-size: 20px
+    +size(48 48)
+    &:after
+        content: ''
+        background: white
+        +size(60 4)
+        position: absolute
+        left: 0
+        bottom: 0
+        transform-origin: left bottom
+        transform: rotate(-45deg)
+    .current
+        position: absolute
+        top: 0
+        left: 0
+    .total
+        position: absolute
+        right: 0
+        bottom: 0
+.overlay
+    +stretch
+    display: none
+    z-index: 3
+
+
+&.loading
+    &:after
+        content: ''
+        +stretch
+        z-index: 1
+        +size(50 50)
+        border-radius: 8px
+        background: black url(img('loading.gif')) center no-repeat
+&.loading-error
+    +valign
+    color: fade-out(white, 0.5)
+    text-align: center
+    .error
+        position: relative
+        z-index: 1
+        background: black
+        line-height: 3

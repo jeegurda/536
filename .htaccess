@@ -1,0 +1,4 @@
+AddDefaultCharset utf-8
+AddCharset utf-8 .html .css .js .php
+DefaultLanguage en-US
+AddType image/svg+xml .svg .svgz

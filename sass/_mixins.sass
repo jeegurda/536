@@ -1,0 +1,96 @@
+@if variable-exists(fonts)
+    @each $class, $value in $fonts
+        $fontName: nth($value, 1)
+        $fontFamily: nth($value, 2)
+        $fontStyle: nth($value, 3)
+        $fontWeight: nth($value, 4)
+        $fullPath: $fontPath + $fontName
+        @font-face
+            font-family: $fontFamily
+            src: url($fullPath + '.eot')
+            src: local('☺'), url($fullPath  + '.eot?#iefix') format('embedded-opentype'), url($fullPath  + '.woff') format('woff'), url($fullPath  + '.ttf') format('truetype')
+            font-style: $fontStyle
+            font-weight: $fontWeight
+        .font-#{$class}
+            font:
+                family: $fontFamily
+                style: $fontStyle
+                weight: $fontWeight
+=stretch($top: 0, $right: 0, $bottom: 0, $left: 0, $position: absolute)
+    position: $position
+    margin: auto
+    @each $i, $j in (top: $top, right: $right, bottom: $bottom, left: $left)
+        @if $j == auto or $j == 0 or unit($j) == '%'
+            #{$i}: $j
+        @else
+            #{$i}: $j + px
+=hover-underline
+    text-decoration: none
+    &:hover
+        text-decoration: underline
+=inline-block($align: top)
+    display: inline-block
+    vertical-align: $align
+=sprite($position: 0 0)
+    background: url(img('sprite.png')) -#{nth($position, 1)}px -#{nth($position, 2)}px
+=size($sizes)
+    $width: nth($sizes, 1)
+    $height: nth($sizes, 2)
+    @if $width == 0 or $width == auto or unit($width) == '%'
+        width: $width
+    @else
+        width: #{$width}px
+    @if $height == 0 or $height == auto or unit($height) == '%'
+        height: $height
+    @else
+        height: #{$height}px
+=triangle($direction, $color, $width, $height)
+    $width: $width / 2 + px
+    $height: $height + px
+    +size(0 0)
+    border-style: solid
+    @if $direction == up
+        border-color: $color transparent
+        border-width: 0 $width $height $width
+    @else if $direction == right
+        border-color: transparent $color
+        border-width: $width  0 $width $height
+    @else if $direction == down
+        border-color: $color transparent
+        border-width: $height $width 0 $width
+    @else if $direction == left
+        border-color: transparent $color
+        border-width: $width $height $width 0
+$blocksMap: (1: 100%, 2: 50%, 3: 33.33%, 4: 25%, 5: 20%, 6: 16.66%)
+=blocks($amount: null, $fontSize: $defFontSize, $align: top)
+    @if $amount != null
+        font-size: 0
+    > *
+        +inline-block($align)
+        @if $amount != null
+            font-size: $fontSize
+            width: map-get($blocksMap, $amount)
+=justify($align: top)
+    text-align: justify
+    line-height: 0
+    > *
+        +inline-block($align)
+        line-height: $defLineHeight
+        text-align: left
+    &:after
+        content: ''
+        display: inline-block
+        vertical-align: top
+        width: 100%
+=valign($align: middle, $fontSize: $defFontSize)
+    font-size: 0
+    > *
+        font-size: $fontSize
+        +inline-block($align)
+    &:before
+        content: ''
+        display: inline-block
+        vertical-align: $align
+        height: 100%
+@function img($name)
+    @return $imgPath + $name
